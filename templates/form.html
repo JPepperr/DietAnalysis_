@@ -1,0 +1,64 @@
+<head>
+    <title>Your Vitamin Diet</title>
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        div {
+            padding: 5px;
+            width: 400px;
+        }
+
+
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            var form = document.getElementById("form1");
+            var number_of_products = {{ number_of_products | tojson }};
+            for(x = 0; x < number_of_products; x++) {
+                var div = document.createElement('div');
+                let inp_pr = document.createElement("input")
+                inp_pr.type = "text";
+                inp_pr.name = "inp_pr" + x.toString();
+                inp_pr.placeholder="Enter product name";
+                inp_pr.style="display:inline; width:300px;";
+
+                let inp_mg = document.createElement("input")
+                inp_mg.type = "number";
+                inp_mg.placeholder="g";
+                inp_mg.min = "1"
+                inp_mg.max = "100000"
+                inp_mg.style="display:inline"
+                inp_mg.name = "inp_mg" + x.toString();
+
+                div.append(inp_pr)
+                div.append(inp_mg)
+                form.appendChild(div);
+            }
+            var button = document.createElement("input")
+            button.type = "submit";
+            button.style = "padding: 5px;";
+            form.appendChild(button)
+
+            var ProductList = {{ product_list | tojson }};
+            $( 'input[type="text"]' ).autocomplete({
+              source: ProductList
+            });
+
+            $(window).ready(function() {
+                $("#form1").on("keypress", function (event) {
+                    var keyPressed = event.keyCode || event.which;
+                    if (keyPressed === 13) {
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+
+<h3>What did you eat today?</h3>
+<form id="form1" autocomplete="off" action="/data" method='POST'></form>

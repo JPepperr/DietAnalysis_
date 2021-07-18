@@ -1,0 +1,93 @@
+<head>
+    <title>Your Vitamin Diet</title>
+    <style>
+        table {
+          border: 4px double black;
+          border-collapse: collapse;
+          width:45%;
+        }
+        th {
+          border: 1px solid black;
+          padding: 5px;
+          background: #6ce4db;
+        }
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<img src={{ url }} alt="Chart" height="500" width="500"
+     style="display: block; margin-left: auto; margin-right: auto;">
+
+<table style="float:left;margin: 20px;">
+    <caption><i>Introduced diet</i></caption>
+    <tr>
+        <th style="text-align:center">Product</th>
+        <th style="text-align:center">Grams</th>
+    </tr>
+    {% if form_data|length > 0 %}
+    <tr>
+        <td colspan="2" style="text-align:center; background: #70e15c;">
+            Recognized data
+        </td>
+    </tr>
+    {%for elem in form_data%}
+    <tr>
+        <td>{{form_data[elem][0]}}</td>
+        <td style="text-align:center">{{form_data[elem][1]}}</td>
+    </tr>
+    {%endfor%}
+
+    {% endif %}
+
+    {% if un_form_data|length > 0 %}
+    <tr>
+        <td colspan="2" style="text-align:center; background: #e06557;">
+            Unrecognized data
+        </td>
+    </tr>
+    {%for elem in un_form_data%}
+    <tr>
+        <td>{{un_form_data[elem][0]}}</td>
+        <td style="text-align:center">{{un_form_data[elem][1]}}</td>
+    </tr>
+    {%endfor%}
+    {% endif %}
+</table>
+
+<table>
+    <caption><i>Your Vitamin Diet</i></caption>
+    <tr>
+        <th></th>
+        {%for elem in vitamins%}
+        <th style="text-align:center">{{elem}}</th>
+        {%endfor%}
+    </tr>
+    <tr>
+        <td>Your vitamin diet, mcg</td>
+        {%for elem in vitamins%}
+        <td style="text-align:center">{{(saturation.get_vitamin(elem) * 1000) |
+            int}}
+        </td>
+        {%endfor%}
+    </tr>
+    <tr>
+        <td>Normal vitamin diet, mcg</td>
+        {%for elem in vitamins%}
+        <td style="text-align:center">{{(norm_saturation.get_vitamin(elem)) |
+            int}}
+        </td>
+        {%endfor%}
+    </tr>
+</table>
+
+<center>
+    <p>The nearest store where you can buy vitamins: <i>{{shop_name}}</i></p>
+    <p>The store is located at: <i>{{shop_address}}</i></p>
+    <a href={{shop_id}}>Link to maps</a>
+</center>
+</body>
