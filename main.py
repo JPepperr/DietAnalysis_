@@ -32,8 +32,7 @@ def data():
         return f"The URL /data is accessed directly. " \
                f"Try going to '/form' to submit form"
     if request.method == 'POST':
-        # ip_address = request.remote_addr
-        ip_address = "78.85.5.237"
+        ip_address = request.remote_addr
         lat, lon = get_coordinates(ip_address)
         with open('google-dev-token.txt') as token_file:
             google_token = token_file.read()
